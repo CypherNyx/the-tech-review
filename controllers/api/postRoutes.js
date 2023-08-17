@@ -1,6 +1,5 @@
-const apiRoutes = require('./api');
 const router = require('express').Router();
+const { Post } = require('../../models');
 
-router.use('/api', apiRoutes);
 
 module.exports = router;
