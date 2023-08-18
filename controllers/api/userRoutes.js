@@ -44,7 +44,7 @@ router.get('/', async (requ, res) => {
         exclude: ["password"]
       }
     });
-    const users = result,map((user) => {
+    const users = result.map((user) => {
       return user.get({plain:true})
     })
     res.status(200).json(users);
