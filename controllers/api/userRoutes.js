@@ -2,6 +2,25 @@ const router = require('express').Router();
 const { User, Post } = require('../../models');
 
 //User Login
+router.post('/login', async (req, res) => {
+  const {email, password } = req.body;
+  const user = await User.findOne({
+    where: { email: email }
+  })
+  if (!user) {
+    res.status(404).json({ message: "User not found"})
+  } else {
+    if (user.checkPassword(password)) {
+      // valid password
+      req.session.use_id = user.id
+      req.session.logged_in = true
+      res.json({"message": "User logged in"})
+    } else {
+      // NOT-VALID password (failed check)
+      res.json({"message": "Password is incorrect"})
+    }
+  }
+});
 
 // Create a new user
 
@@ -13,7 +32,7 @@ router.post('/', async (req, res) =>{
   catch(err) {
     res.json(err)
   }
-})
+});
 
 // Get user by ID
 router.get('/:id', async (req, res) => {
@@ -34,7 +53,7 @@ router.get('/:id', async (req, res) => {
   catch(err){
     res.status(500).json(err);
   }
-})
+});
 
 // Get all users
 router.get('/', async (requ, res) => {
@@ -71,7 +90,7 @@ router.put('/:id', async (req, res) => {
   catch(err) {
     res.status(500).json(err);
   }
-})
+});
 
 // Delete user
 router.delete('/:id', async (req, res) => {
@@ -90,9 +109,13 @@ router.delete('/:id', async (req, res) => {
   catch(err){
     res.status(500).json(err);
   }
-})
+});
 
 // User log-out
+router.post('/logout', async (req, res) => {
+  req.session.destroy()
+  res.json({"message": "Logged out"})
+});
 
 
 module.exports = router;
