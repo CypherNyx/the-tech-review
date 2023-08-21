@@ -1,0 +1,17 @@
+[
+  {
+    "title": "Building Dynamic UIs with React Hooks",
+    "content": "React Hooks have revolutionized the way developers build dynamic user interfaces in JavaScript applications. Learn how to leverage useState and useEffect hooks to create responsive and interactive UI components in your MERN stack projects.",
+    "user_id": 1
+  },
+  {
+    "title": "Securing Your MERN App: JWT Authentication",
+    "content": "In the world of modern web development, securing user data is paramount. Discover the difference between authentication and authorization, and dive into implementing JSON Web Token (JWT) authentication in your MERN app to ensure safe and controlled user access.",
+    "user_id": 1
+  },
+  {
+    "title": "Optimizing Performance in MERN Applications",
+    "content": "Performance is a critical aspect of web applications. Explore various techniques and best practices for optimizing the performance of your MERN stack projects. From code splitting in React to server-side rendering and database indexing, learn how to make your app lightning-fast.",
+    "user_id": 1
+  }
+]

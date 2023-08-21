@@ -3,15 +3,15 @@
     "username": "Oliver",
     "email": "oliver@email.com",
     "password": "pass123"
-  },
+      },
   {
     "username": "Grace",
     "email": "grace@email.com",
     "password": "gracepass"
-  },
+    },
   {
     "username": "Lucas",
     "email": "lucas@email.com",
     "password": "lucas321"
-  }
+     }
 ]
