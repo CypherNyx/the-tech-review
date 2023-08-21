@@ -5,26 +5,26 @@ const { Post, User, Comment } = require('../models');
 // Get all posts
 router.get('/', (req, res) => {
     Post.findAll({
-      attributes: [
-        'id',
-        'title',
-        'content',
-        'user_id',
-        'created_at'],
-        order: [['created_at', 'DESC']],
+      // attributes: [
+      //   'id',
+      //   'title',
+      //   'content',
+      //   'user_id'
+      //   ],
+        // order: [['created_at', 'DESC']],
       include: [
         {
           model: User,
-          attributes: ['name']
+          attributes: ['username']
         },
-        {
-          model: Comment,
-          attributes: ['id', 'content', 'post_id', 'user_id', 'created_at'],
-          include: {
-            model: User,
-            attributes: ['name']
-          }
-        }
+        // {
+        //   model: Comment,
+        //   attributes: ['id', 'content', 'post_id', 'user_id', 'created_at'],
+        //   include: {
+        //     model: User,
+        //     attributes: ['username']
+        //   }
+        // }
       ]
     })
       .then(dbPostData => {
