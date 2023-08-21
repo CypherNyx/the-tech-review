@@ -11,7 +11,12 @@ router.get('/', (req, res) => {
         'content',
         'user_id',
         'created_at'],
+        order: [['created_at', 'DESC']],
       include: [
+        {
+          model: User,
+          attributes: ['name']
+        },
         {
           model: Comment,
           attributes: ['id', 'content', 'post_id', 'user_id', 'created_at'],
@@ -19,16 +24,13 @@ router.get('/', (req, res) => {
             model: User,
             attributes: ['name']
           }
-        },
-        {
-          model: User,
-          attributes: ['name']
         }
       ]
     })
       .then(dbPostData => {
         const posts = dbPostData.map(post => post.get({ plain: true}));
-
+        console.log(posts)
+        console.log(req.session.logged_in + "from home route")
         res.render('home', {
             posts,
             loggedIn: req.session.loggedIn,
