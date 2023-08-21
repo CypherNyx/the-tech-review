@@ -28,12 +28,14 @@ User.init(
         len: [8],
       },
     },
-    avatar: {
-      type: DataTypes.STRING,
-    },
-    bio: {
-      type: DataTypes.STRING,
-    },
+    // avatar: {
+    //   type: DataTypes.STRING,
+    //   allowNull: true,
+    // },
+    // bio: {
+    //   type: DataTypes.STRING,
+    //   allowNull: true,
+    // },
   },
   {
     sequelize,
