@@ -1,4 +1,6 @@
-const { User, Post, Comment } = require('../models');
+const User = require('./User');
+const Post = require('./Post');
+const Comment = require('./Comment');
 const { withAuth } = require('../utils/auth');
 
 User.hasMany(Post, {
@@ -6,7 +8,7 @@ User.hasMany(Post, {
   onDelete: 'CASCADE'
 });
 
-Post.belongsToUser(User, {
+Post.belongsTo(User, {
   foreignkey:"user_id"
   });
 
@@ -19,6 +21,10 @@ Comment.belongsTo(Post, {
 });
 
 User.hasMany(Comment, {
+  foreignkey: "user_id"
+})
+
+Comment.belongsTo(User, {
   foreignkey: "user_id"
 })
 
