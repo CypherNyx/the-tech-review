@@ -2,48 +2,142 @@ const router = require('express').Router();
 const sequelize = require('../config/connection');
 const { Post, User, Comment } = require('../models');
 
-// Get all posts
-router.get('/', (req, res) => {
-    Post.findAll({
-      // attributes: [
-      //   'id',
-      //   'title',
-      //   'content',
-      //   'user_id'
-      //   ],
-        // order: [['created_at', 'DESC']],
+// * Get all posts
+router.get('/', async (req, res) => {
+  try {
+    // GET all posts and JOIN with user data
+    const postData = await Post.findAll({
       include: [
         {
           model: User,
-          attributes: ['username']
+          attributes: ["name"],
         },
-        // {
-        //   model: Comment,
-        //   attributes: ['id', 'content', 'post_id', 'user_id', 'created_at'],
-        //   include: {
-        //     model: User,
-        //     attributes: ['username']
-        //   }
-        // }
-      ]
-    })
-      .then(dbPostData => {
-        const posts = dbPostData.map(post => post.get({ plain: true}));
-        console.log(posts)
-        console.log(req.session.logged_in + "from home route")
-        res.render('home', {
-            posts,
-            loggedIn: req.session.loggedIn,
-            username: req.session.username
-        })
-    })
-      .catch(err => {
-        console.log(err);
-        res.status(500).json(err);
-      });
-  });
+        {
+          model: Comment,
+          attributes: ["content"],
+        },
+      ],
+    });
+    // Serialize data so the template can read it
+    // converts the Sequelize model to plain JavaScript
+    const posts = postData.map((post) => post.get({ plain: true }));
 
-// login
+    res.render('homepage', { 
+      posts, 
+      logged_in: req.session.logged_in 
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+// * Display posts to homepage
+// Find all posts from DB and display on homepage including the associated User and Comments
+router.get('/homepage', async (req, res) => {
+  try {
+    const postData = await Post.findAll({
+      include: [
+        {
+          model: User,
+          attributes: ['name'],
+        },
+        {
+          model: Comment,
+          attributes: ['comment'],
+          include: [User],
+        },
+      ],
+    });  
+    // Serialize data. converts the Sequelize model to plain JavaScript
+    const posts = postData.map((post) => post.get({ plain: true }));
+
+    res.render('homepage', {
+      posts,
+      logged_in: req.session.logged_in
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+// * Get Post by id
+// Find a single post from the database based on the id
+router.get('/post/:id', async (req, res) => {
+  try {
+    const postData = await Post.findByPk(req.params.id, {
+      include: [
+        {
+          model: User,
+          attributes: ['name'],
+        },
+        {
+          model: Comment,
+          include: [User],
+        },
+      ],
+    });
+
+    // Serialize. converts the Sequelize model to plain JavaScript
+    const post = postData.get({ plain: true });
+
+    res.render('post', {
+      ...post,
+      logged_in: req.session.logged_in
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+// * DASHBOARD: withAuth middleware makes sure that the user is authenticated BEFORE accessing the dashboard.
+router.get('/dashboard', withAuth, async (req, res) => {
+  try {
+    // Find the logged in user data from DB based on the user_id property in the req.session object. It excludes the password attribute from the query result
+    const userData = await User.findByPk(req.session.user_id, {
+      attributes: { exclude: ['password'] },
+      include: [
+        { 
+          model: Post 
+        }
+      ],
+    });
+
+    const user = userData.get({ plain: true });
+
+    res.render('dashboard', {
+      ...user,
+      logged_in: true
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+// * update post by id
+router.get('/updatepost', async (req, res) => {
+  try {
+    const postData = await Post.findByPk(req.params.id, {
+      include: [
+        {
+          model: User,
+          attributes: ['username'],
+        }
+      ],
+    });
+
+    // Serialize data so the template can read it
+    const post = postData.get({ plain: true });
+
+    res.render('updatepost', {
+      post,
+      logged_in: req.session.logged_in
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+// * login redirect
 router.get('/login', (req, res) => {
     if (req.session.loggedIn) {
         res.redirect('/');
@@ -53,7 +147,7 @@ router.get('/login', (req, res) => {
     res.render('login');
 });
 
-// signup
+// * signup
 router.get('/signup', (req, res) => {
   res.render('signup');
 });
