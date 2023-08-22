@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const sequelize = require('../config/connection');
 const { Post, User, Comment } = require('../models');
+const withAuth = require('../utils/auth');
 
 // * Get all posts
 router.get('/', async (req, res) => {
@@ -10,7 +11,7 @@ router.get('/', async (req, res) => {
       include: [
         {
           model: User,
-          attributes: ["name"],
+          attributes: ["username"],
         },
         {
           model: Comment,
@@ -22,7 +23,7 @@ router.get('/', async (req, res) => {
     // converts the Sequelize model to plain JavaScript
     const posts = postData.map((post) => post.get({ plain: true }));
 
-    res.render('homepage', { 
+    res.render('home', { 
       posts, 
       logged_in: req.session.logged_in 
     });
@@ -33,25 +34,25 @@ router.get('/', async (req, res) => {
 
 // * Display posts to homepage
 // Find all posts from DB and display on homepage including the associated User and Comments
-router.get('/homepage', async (req, res) => {
+router.get('/home', async (req, res) => {
   try {
     const postData = await Post.findAll({
       include: [
         {
           model: User,
-          attributes: ['name'],
+          attributes: ['username'],
         },
         {
           model: Comment,
-          attributes: ['comment'],
+          attributes: ['content'],
           include: [User],
         },
       ],
     });  
     // Serialize data. converts the Sequelize model to plain JavaScript
     const posts = postData.map((post) => post.get({ plain: true }));
-
-    res.render('homepage', {
+    console.log(posts);
+    res.render('home', {
       posts,
       logged_in: req.session.logged_in
     });
@@ -68,7 +69,7 @@ router.get('/post/:id', async (req, res) => {
       include: [
         {
           model: User,
-          attributes: ['name'],
+          attributes: ['username'],
         },
         {
           model: Comment,
