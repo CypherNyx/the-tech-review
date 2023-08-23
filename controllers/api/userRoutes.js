@@ -7,7 +7,7 @@ const SequelizeStore = require('connect-session-sequelize')(session.Store);
 // User Login
 router.post("/login", async (req, res) => {
     try {
-        const userData = await User.findOne({ where: { username: req.body.username } });
+        const userData = await User.findOne({ where: { email: req.body.email } });
         if (!userData) {
             console.log("Incorrect username or password, please try again.")
             res
