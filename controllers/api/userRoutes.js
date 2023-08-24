@@ -13,9 +13,9 @@ router.post('/', async (req, res) => {
             req.session.logged_in = true;
             console.log(userData);
 
-            res.status(200).json(userData);
-            res.json({ user: userData, message: "You are now logged in!" });
-            
+            res.json({ user: userData, message: "You Signed up!" });
+
+
         });
     }
     catch (err) {
@@ -60,37 +60,37 @@ router.post("/login", async (req, res) => {
 // Get user by ID
 router.get('/:id', (req, res) => {
     User.findOne({
-      attributes: { exclude: ['password'] },
-      where: {
-        id: req.params.id
-      },
-      include: [
-        {
-          model: Post,
-          attributes: ['id', 'title', 'content', 'created_at']
+        attributes: { exclude: ['password'] },
+        where: {
+            id: req.params.id
         },
-        {
-            model: Comment,
-            attributes: ['id', 'content', 'post_id', 'user_id', 'created_at'],
-            include: {
+        include: [
+            {
                 model: Post,
-                attributes: ['title']
+                attributes: ['id', 'title', 'content', 'created_at']
+            },
+            {
+                model: Comment,
+                attributes: ['id', 'content', 'post_id', 'user_id', 'created_at'],
+                include: {
+                    model: Post,
+                    attributes: ['title']
+                }
             }
-        }
-      ]
+        ]
     })
-      .then(dbUserData => {
-        if (!dbUserData) {
-          res.status(404).json({ message: 'No user found with this id' });
-          return;
-        }
-        res.json(dbUserData);
-      })
-      .catch(err => {
-        console.log(err);
-        res.status(500).json(err);
-      });
-  });
+        .then(dbUserData => {
+            if (!dbUserData) {
+                res.status(404).json({ message: 'No user found with this id' });
+                return;
+            }
+            res.json(dbUserData);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
+});
 
 // Get all users
 router.get('/', async (req, res) => {
