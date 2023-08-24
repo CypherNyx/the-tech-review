@@ -5,6 +5,7 @@
 
 CMS-style blog site that will provide reviews and commentary on tech  where developers can publish their blog posts and comment on other developers’ posts as well.
 
+## [Link to the deployed application >>](https://the-tech-review-835a23de7c76.herokuapp.com/)
 ## Table of Contents
   * [Description](#description)
   * [Installation](#installation)
