@@ -150,12 +150,15 @@ router.delete('/:id', async (req, res) => {
 })
 
 // User Logout
-router.post('/logout', async (req, res) => {
-    console.log(`${req.session.logged_in}`);
-    req.session.destroy();
-    console.log("goodbye");
-    res.redirect('/login');
-});
+router.post('/logout', (req, res) => {
+    if (req.session.logged_in) {
+      req.session.destroy(() => {
+        res.status(204).end();
+      });
+    } else {
+      res.status(404).end();
+    }
+  });
 
 
 
