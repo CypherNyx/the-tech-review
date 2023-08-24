@@ -8,6 +8,7 @@ const helpers = require("./utils/helpers");
 const hbs = exphbs.create({ helpers });
 const path = require("path");
 
+const app = express();
 const PORT = process.env.PORT || 3001;
 
 // express-sessions module
@@ -15,16 +16,21 @@ const session = require('express-session');
 const sessionSequelize = require('connect-session-sequelize');
 const SequelizeStore = sessionSequelize(session.Store);
 const sessionOptions = {
-    secret: process.env.DB_SECRET, /* used pswd gen (see dotenv) */
-    cookie: {},
-    resave: false,
-    saveUninitialized: true,
-    store: new SequelizeStore({
-        db: sequelize
-    })
+  secret: process.env.DB_SECRET, /* used pswd gen (see dotenv) */
+  cookie: {
+    maxAge: 300000,
+    httpOnly: true,
+    secure: false,
+    sameSite: 'strict',
+  },
+  resave: false,
+  saveUninitialized: true,
+  store: new SequelizeStore({
+    db: sequelize
+  })
 };
 
-const app = express();
+
 
 // Handlebars middleware
 app.engine("handlebars", hbs.engine);
