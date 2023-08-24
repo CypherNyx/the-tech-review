@@ -19,6 +19,7 @@ router.post('/', async (req, res) => {
         });
     }
     catch (err) {
+        console.log(err);
         res.status(400).json(err);
     }
 });
@@ -150,11 +151,11 @@ router.delete('/:id', async (req, res) => {
 
 // User Logout
 router.post('/logout', async (req, res) => {
-    console.log(`${req.session.logged_in}`)
-    req.session.destroy()
-    console.log("goodbye")
-    res.json({ message: "Logged out" })
-})
+    console.log(`${req.session.logged_in}`);
+    req.session.destroy();
+    console.log("goodbye");
+    res.redirect('/login');
+});
 
 
 
