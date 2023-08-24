@@ -4,6 +4,26 @@ const session = require('express-session');
 const withAuth = require('../../utils/auth');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
+// Create a new user
+router.post('/', async (req, res) => {
+    try {
+        const userData = await User.create(req.body);
+        req.session.save(() => {
+            req.session.user_id = userData.id;
+            req.session.logged_in = true;
+            console.log(userData);
+
+            res.status(200).json(userData);
+            res.json({ user: userData, message: "You are now logged in!" });
+            
+        });
+    }
+    catch (err) {
+        res.status(400).json(err);
+    }
+});
+
+
 // User Login
 router.post("/login", async (req, res) => {
     try {
@@ -35,23 +55,7 @@ router.post("/login", async (req, res) => {
     }
 });
 
-// Create a new user
-router.post('/', async (req, res) => {
-    try {
-        const userData = await User.create(req.body);
-        req.session.save(() => {
-            req.session.user_id = userData.id;
-            req.session.logged_in = true;
-            console.log(userData);
 
-            res.json({ user: userData, message: "You are now logged in!" });
-            
-        });
-    }
-    catch (err) {
-        res.json(err)
-    }
-});
 
 // Get user by ID
 router.get('/:id', (req, res) => {
