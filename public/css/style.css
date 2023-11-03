@@ -5,11 +5,15 @@ nav {
 }
 
 nav ul {
-  border: 1px solid red;
   flex: 1;
   max-width: 50%;
   display: flex;
   justify-content: space-evenly;
+}
+
+#logout {
+  border: none;
+  background: none;
 }
 
 ul,
@@ -17,4 +21,15 @@ li {
   display: inline;
   margin: 0;
   padding: 0;
+}
+
+@media (max-width: 768px) {
+
+  nav,
+  nav ul {
+    flex-direction: column;
+    align-items: center;
+  }
+
+
 }
