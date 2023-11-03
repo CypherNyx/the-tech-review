@@ -13,41 +13,31 @@
 
 <body>
   <header>
-    <nav class="navbar navbar-default">
-      <div class="container-fluid">
-        <div class="navbar-header" id="mainLogo"><a href="/">
-            <h1>Tech Review</h1>
-          </a></div>
-        <ul class="nav navbar-nav">
-          <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-          {{#if logged_in}}
-          <li class="nav-item">
-            <a class="nav-link" href="/dashboard">Dashboard</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link"><button class="link-secondary no-button" id="logout">Logout</button></a>
-          </li>
-          {{else}}
-          <li class="nav-item">
-            <a class="nav-link" href="/login">Dashboard</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/login">Login</a>
-          </li>
-          {{/if}}
-        </ul>
-        {{!-- <ul class="nav navbar-nav navbar-right">
-          {{#if logged_in}} --}}
-          {{!-- <li class="logout">
-            <form action="/logout" method="POST">
-              <button type="submit" class="logout-btn" id="logout">Logout</button>
-            </form>
-          </li> --}}
-          {{!-- {{else}}
-          <li><a href="/login"><span class="glyphicon glyphicon-user"></span> Sign In</a></li>
-          {{/if}}
-        </ul> --}}
-      </div>
+    <nav>
+      <a href="/" id="logo">
+        Tech Review
+      </a>
+      <ul>
+        <li class="nav-item">
+          <a href="/">Home</a>
+        </li>
+        {{#if logged_in}}
+        <li>
+          <a href="/dashboard">Dashboard</a>
+        </li>
+        <li>
+          <a><button class="no-button" id="logout">Logout</button></a>
+        </li>
+        {{else}}
+        <li>
+          <a href="/login">Dashboard</a>
+        </li>
+        <li>
+          <a href="/login">Login</a>
+        </li>
+        {{/if}}
+      </ul>
+      <a href="/signup">Sign Up</a>
     </nav>
   </header>
   <main class="container px-4">
