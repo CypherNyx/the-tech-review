@@ -41,6 +41,14 @@ li {
   padding: 0;
 }
 
+
+nav>ul>li.nav-item>a:hover,
+nav>a.nav-item:hover {
+  text-decoration: none;
+  color: #20b2aa;
+
+}
+
 @media (max-width: 768px) {
 
   nav,
