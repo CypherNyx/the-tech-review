@@ -14,26 +14,26 @@
 <body>
   <header>
     <nav>
-      <a href="/">
-        <h1>Tech Review</h1>
+      <a href="/" id="logo" >
+       Tech Review
       </a>
       <ul>
         <li class="nav-item">
-          <a href="/" class="nav-link">Home</a>
+          <a href="/">Home</a>
         </li>
         {{#if logged_in}}
         <li>
-          <a href="/dashboard" class="nav-link">Dashboard</a>
+          <a href="/dashboard" >Dashboard</a>
         </li>
         <li>
-          <a class="nav-link"><button class="link-secondary no-button" id="logout">Logout</button></a>
+          <a ><button class="no-button" id="logout">Logout</button></a>
         </li>
         {{else}}
         <li>
-          <a href="/login" class="nav-link">Dashboard</a>
+          <a href="/login" >Dashboard</a>
         </li>
         <li>
-          <a href="/login" class="nav-link">Login</a>
+          <a href="/login" >Login</a>
         </li>
         {{/if}}
       </ul>

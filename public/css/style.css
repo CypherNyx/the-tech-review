@@ -1,15 +1,19 @@
-h1 {
-  font-size: 2em;
-  text-align: center;
-}
-
 nav {
   font-size: 1.5em;
+  display: flex;
+  justify-content: space-between;
+}
+
+nav ul {
+  border: 1px solid red;
+  flex: 1;
+  max-width: 50%;
+  display: flex;
+  justify-content: space-evenly;
 }
 
 ul,
 li {
-  list-style-type: none;
   display: inline;
   margin: 0;
   padding: 0;
